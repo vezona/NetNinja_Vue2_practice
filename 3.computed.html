@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2 way data binding</title>
+    <style>
+      span {
+        background: red;
+        display: inline-block;
+        padding: 10px;
+        color: #fff;
+        margin: 10px 0;
+      }
+
+      .able span {
+        background: green;
+      }
+
+      .nearby span:after {
+        content: "nearby";
+        margin-left: 10px;
+      }
+
+      .light {
+        width: 100px;
+        height: 50px;
+        border-radius: 10px;
+        background-color: green;
+        text-align: center;
+        color: white;
+        line-height: 3;
+        font-weight: 700;
+      }
+      .light.lightoff {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button v-on:click="a++">Add A +1</button>
+      <button v-on:click="b++">Add B +1</button>
+      <p>a 的數值 : {{a}}</p>
+      <p>a 的數值 : {{b}}</p>
+      <hr />
+      <p>a+age 的數值 : {{ aAndAge }}</p>
+      <p>b+age 的數值 : {{ bAndAge }}</p>
+
+      <hr />
+      <h2>動態CSS</h2>
+
+      <!-- 這邊的available = !available意思是，如果available是某個狀態，就把它變成另外一個狀態(true/false) -->
+      <div v-on:click="available = !available" v-bind:class="{able:available}">
+        <span>無法使用</span>
+      </div>
+
+      <!-- 多個css function 包在Vue computed程式內 -->
+      <button v-on:click="available =!available">Toggle able</button>
+      <button v-on:click="nearby =! nearby">Toggle nearby</button>
+      <div v-bind:class="comClass">
+        <span>使用中</span>
+      </div>
+      <hr />
+      <h2>開關燈按鈕</h2>
+      <div
+        class="light"
+        v-bind:class="{lightoff:lightsOn}"
+        @click="lightsOn = !lightsOn"
+      >
+        <p v-if="lightsOn">{{buttonText}}</p>
+        <p v-if="!lightsOn">{{buttonTextOn}}</p>
+      </div>
+    </div>
+    <!-- CDN引入JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          age: 20,
+          a: 0,
+          b: 0,
+          //   css動態綁定
+          available: false,
+          nearby: false,
+          //
+          lightsOn: true,
+          buttonText: "關燈",
+          buttonTextOn: "開燈中",
+        },
+        // 若使用method的話，一樣可以運作，但無論點A或B，AB都會同時運行(可見console)
+        methods: {
+          /*aAndAge: function () {
+            console.log("aAndAge");
+            return this.a + this.age;
+          },
+          bAndAge: function () {
+            console.log("bAndAge");
+            return this.b + this.age;
+          },*/
+        },
+        // 如果想要更有效率，可以換成使用computed
+        // 注意，如果使用computed的話，html 那邊就不用加function 的()，可直接呼叫aAndAge
+        computed: {
+          aAndAge: function () {
+            console.log("aAndAge");
+            return this.a + this.age;
+          },
+          bAndAge: function () {
+            console.log("bAndAge");
+            return this.b + this.age;
+          },
+
+          // 多個css包在其中
+          comClass: function () {
+            return {
+              able: this.available,
+              nearby: this.nearby,
+            };
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

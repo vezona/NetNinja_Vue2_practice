@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Refs</title>
+  </head>
+  <body>
+    <div id="app">
+      <h2>Refs</h2>
+      <!-- 在input 加上ref，讓vue script 可以抓到輸入的資料 -->
+      <input type="text" ref="inputText" />
+      <button @click="readRefs">Sumbmit</button>
+      <p>你最愛吃的食物: {{output}}</p>
+
+      <div ref="getInnerHTML">嗨嗨嗨嗨</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          output: "快點說說吧",
+        },
+        computed: {},
+        methods: {
+          readRefs: function () {
+            //   如果只是this.$refs，就會抓到html中所有帶有ref這個屬性的 DOM
+            console.log(this.$refs);
+            // 輸入要抓的那個ref的名稱，並選擇要抓的值
+            console.log(this.$refs.inputText.value);
+            this.output = this.$refs.inputText.value;
+
+            // refs也可以抓到div的資料
+            console.log(this.$refs.getInnerHTML.innerHTML);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

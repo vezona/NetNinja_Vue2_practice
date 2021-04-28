@@ -1,0 +1,11 @@
+body {
+  font-size: 2rem;
+}
+
+#canvas {
+  width: 600px;
+  padding: 200px 20px;
+  text-align: center;
+  border: 1px solid #333;
+  /* background-color: green; */
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>V-if</title>
+  </head>
+  <body>
+    <div id="app">
+      <input type="radio" v-model="x" value="one" />
+      <input type="radio" v-model="x" value="two" />
+
+      <div v-show="x === 'hey'">One</div>
+      <div v-show="x !== 'hey'">Two</div>
+
+      <hr />
+      <button @click="error =!error">Toggle error</button>
+      <button @click="success =!success">Toggle success</button>
+      <br />
+      <div v-if="error">This is error</div>
+      <div v-else-if="success">This is success</div>
+      <hr />
+      <h2>V-for</h2>
+      <ul>
+        <li v-for="c in characters">{{c}}</li>
+      </ul>
+      <div>line~~</div>
+      <ul>
+        <li v-for="(p,index) in people">{{index}} . {{p.name}}-{{p.age}}</li>
+      </ul>
+      <div>物件~~</div>
+      <template v-for="n in people">
+        <div v-for="(val,key) in n">
+          <p>{{key}} {{val}}</p>
+        </div>
+      </template>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          x: "hey",
+          error: false,
+          success: false,
+          characters: ["warm", "kind", "cute", "handsome"],
+          people: [
+            { name: "jinjin", age: 19 },
+            { name: "文文", age: 22 },
+            { name: "方大同", age: 35 },
+          ],
+        },
+        computed: {},
+        methods: {},
+      });
+    </script>
+  </body>
+</html>

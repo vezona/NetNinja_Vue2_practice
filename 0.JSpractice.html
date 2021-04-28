@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Practice</title>
+  </head>
+  <body>
+    <script>
+      // 算出10內除了3的倍數之外的值
+      var i = 1;
+
+      for (i = 1; i <= 10; i++) {
+        if (i % 2 == 0) {
+          continue;
+        }
+        // console.log(i);
+      }
+
+      // 有個陣列，假設裡面包含一堆 0 與若干其他數字，而我們不知道裡面內容。
+      // 我們想要找出不是「0」的「第一個數字」是哪一個：
+
+      var a = [0, 0, 0, 3, 0, 0, 0, 1, 1, 4, 21, 9];
+
+      for (var i = 0; i < a.length; i++) {
+        if (a[i] !== 0) {
+          console.log(a[i]);
+          break;
+        }
+      }
+
+      //   把「大樂透」的電腦選號規則程式化：「從 1 ~ 49 中選 6 個不重複號碼」
+      // 0.陣列只能有六的號碼
+      // 1.先抓1-49的數字
+      // 2.隨機選取號碼
+      // 3.判斷選的號碼是否選過
+      // 4.沒有的話就放進陣列
+
+      var lottery = [];
+      var num;
+
+      while (lottery.length < 6) {
+        // 取1-49隨機數字
+        num = Math.floor(Math.random() * 49) + 1;
+
+        // 如果選出來得n不存在(===-1就不存在，因為陣列只有0以上)，就放進陣列中
+        if (lottery.indexOf(num) === -1) {
+          lottery.push(num);
+        }
+
+        // console.log(lottery);
+      }
+
+      //   用setTimeOut +for迴圈 一一印出1-5
+      //   for (var b = 1; b < 6; b++) {
+      //     (function (x) {
+      //       window.setTimeout(function () {
+      //         console.log(x);
+      //       }, 1000 * x);
+      //     })(b);
+      //   }
+
+      for (var c = 0; c < 3; c++) {
+        (function timmer(c) {
+          window.setTimeout(function () {
+            console.log(c);
+          }, 1000 * c);
+        })(c);
+      }
+
+      var foo = "foo";
+      var obj = {
+        foo: "foo in Object",
+      };
+
+      var sayFoo = function () {
+        console.log(this.foo);
+      };
+
+      obj.sayFoo = sayFoo;
+      obj.sayFoo();
+      sayFoo();
+    </script>
+  </body>
+</html>

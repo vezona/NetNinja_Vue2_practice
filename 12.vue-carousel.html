@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>carousel</title>
+    <style>
+      * {
+        font-family: Helvetica Neue;
+      }
+
+      html {
+        min-height: 600px;
+      }
+
+      body {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        background: linear-gradient(
+          to right,
+          white 0%,
+          #f6f6f6 47%,
+          #ededed 100%
+        );
+      }
+      body h1.page-title {
+        text-align: center;
+        color: grey;
+        font-size: 2.5em;
+        font-weight: 300;
+        letter-spacing: 50px;
+        background: linear-gradient(
+          to right,
+          #93cede 0%,
+          #75bdd1 41%,
+          #45b39d 100%
+        );
+        color: white;
+        padding: 3%;
+        margin: 0;
+      }
+      @media (max-width: 950px) {
+        body h1.page-title {
+          letter-spacing: 20px;
+          font-size: 2em;
+        }
+      }
+      @media (max-width: 507px) {
+        body h1.page-title {
+          letter-spacing: 15px;
+          font-size: 1.2em;
+        }
+      }
+      body h4.sub-title {
+        text-align: center;
+        color: grey;
+        letter-spacing: 15px;
+        font-weight: bold;
+        padding: 3%;
+        margin-top: 0;
+        background: #ededed;
+      }
+
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+        height: 200px;
+        background: transparent;
+      }
+      .slider-container img {
+        align-self: center;
+        display: inline;
+        max-width: 400px;
+        max-height: 150px;
+        background-color: none;
+        padding: 10px;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        padding: 0.5%;
+        background: transparent;
+        text-align: center;
+        color: #45b39d;
+        border-top: 1px solid #45b39d;
+        letter-spacing: 2px;
+      }
+
+      /* Animations */
+      .fade-enter-active,
+      .fade-leave-active {
+        opacity: 1;
+        transition: all 0.5s ease-in-out;
+      }
+
+      .fade-enter,
+      .fade-leave-to {
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="slider-container">
+        <!-- <transition name="fade"> -->
+        <div
+          @click="slideForward()"
+          v-bind:key="[1]"
+          v-html="images[currentNumber].logo"
+        ></div>
+        <!-- </transition> -->
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          images: [
+            {
+              logo:
+                '<img src="https://images.vexels.com/media/users/3/139567/isolated/preview/582aca4000ab46231333a1df893c947e-apple-logo-by-vexels.png">',
+            },
+            {
+              logo:
+                '<img src="http://logo-load.com/uploads/posts/2016-08/storm-logo.png">',
+            },
+            {
+              logo:
+                '<img src="https://discuss.atom.io/uploads/github_atom/487/cda7a1c2ac02fd3d.png">',
+            },
+            {
+              logo:
+                '<img src="https://bendyworks.com/assets/images/blog/2017-02-08-webpack-v2-quick-start-7be56d30.png">',
+            },
+            {
+              logo:
+                '<img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Vagrant.png">',
+            },
+            {
+              logo:
+                '<img src="https://www.geomatys.com/wordpress/wp-content/uploads/2016/03/Elasticsearch-Logo-Color-H.jpg-1024x273.png">',
+            },
+            {
+              logo:
+                '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/2000px-Nginx_logo.svg.png">',
+            },
+            {
+              logo:
+                '<img src="http://sass-lang.com/assets/img/styleguide/color-1c4aab2b.png">',
+            },
+            {
+              logo:
+                '<img src="https://confluence.jetbrains.com/download/attachments/70747197/large_h-trans.png?version=1&modificationDate=1446197034000&api=v2">',
+            },
+            { logo: '<img src="https://vuejs.org/images/logo.png">' },
+            {
+              logo:
+                '<img src="http://logos-download.com/wp-content/uploads/2016/03/WordPress_logo.png">',
+            },
+            {
+              logo:
+                '<img src="http://logos-download.com/wp-content/uploads/2016/09/Laravel_logo_wordmark_logotype.png">',
+            },
+            {
+              logo:
+                '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Spotify_logo_with_text.svg/2000px-Spotify_logo_with_text.svg.png">',
+            },
+          ],
+          currentNumber: 0,
+          timer: null,
+          showMe: false,
+        },
+        computed: {},
+        methods: {
+          slideForward: function () {
+            if (this.currentNumber === this.images.length - 1) {
+              this.currentNumber = 0;
+              return;
+            }
+            this.currentNumber++;
+          },
+          startRotation: function () {
+            this.timer = setInterval(this.next, 1000);
+          },
+
+          stopRotation: function () {
+            clearTimeout(this.timer);
+            this.timer = null;
+          },
+
+          next: function () {
+            if (this.currentNumber === this.images.length - 1) {
+              this.currentNumber = 0;
+              return;
+            }
+            this.currentNumber += 1;
+          },
+        },
+        mounted() {
+          this.startRotation();
+        },
+      });
+    </script>
+  </body>
+</html>

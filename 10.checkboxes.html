@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue chechBoxes</title>
+  </head>
+  <body>
+    <div id="app">
+        <p class="popup-content checkBox">
+            <div class="check-container">
+                <div class="check-group">
+                  <h3 class="title" v-if="popup.totalTime">This is title</h3>
+                  <h3 class="title" v-if="!popup.totalTime">這個是抬頭</h3>
+                  <!-- Timmer -->
+                  <h1 class="text-center">{{ minutes }}:{{seconds}}</h1>
+
+                  <!-- if測試區 -->
+                  <div v-model="ifTest">show this</div>
+
+                  <!-- 2stepsComfirm -->
+                    <div class="input-group"><input class="option-input" type="radio" id="email" name="doubleCheck" value="1" v-model="popup.isShow" /><label for="email">Email驗證</label></div>
+                    <div class="input-group"><input class="option-input" type="radio" id="ID" name="doubleCheck" value="2" v-model="popup.isShow" /><label for="ID">身分證驗證</label>
+                        {{popup.isShow}}
+                    </div>
+                </div>
+                <p class="popup-content popup-input twoStepsConfirm" v-show="popup.isShow == 1 ">
+                    <span v-text="`${popup.label}：`"></span>
+                </p>
+
+                <!-- Email輸入框 -->
+                <!-- <p class="popup-content small twoStepsConfirm" v-text="popup.content" v-show="popup.isShow === 'one' "></p> -->
+                <p class="popup-content popup-input" v-show="popup.isShow == 1 ">
+                    <input type="email" v-model="popup.value" v-if="popup.totalTime" />
+                </p>
+
+                <p class="popup-content popup-input twoStepsConfirm" v-show="popup.isShow == 2 ">
+                    <span v-text="`${popup.label2}：`"></span>
+                </p>
+
+                <!-- 身分證輸入框 -->
+                <!-- <p class="popup-content small twoStepsConfirm" v-text="`${popup.content2}`" v-show="popup.isShow !== 'one' "></p> -->
+                <p class="popup-content popup-input" v-show="popup.isShow == 2 ">
+                    <input type="text" v-model="popup.value" v-if="popup.totalTime" style="text-transform: uppercase;" />
+                    {{popup.isShow}}
+                    {{popup.value}}
+                </p>
+
+                <button @click="timerStart">Start</button>
+                <hr>
+                <!-- <button class="popup-button" @click="onClick"  v-text="popup.button">請稍候</button> -->
+                <button v-if="popup.totalTime" @click="onClick(popup.value)">輸入驗證碼</button>
+                <button v-if="!popup.totalTime" @click="renew">重新發送</button>
+
+                <hr>
+                <div class="clickValue" v-model="popup.new">{{popup.new}}</div>
+            </div>
+        </p>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+    const popupDefault = {
+        title: "會員升級通知",
+        label: "Email驗證",
+        label2: "身分證驗證",
+
+      };
+
+    let app = new Vue({
+        el: "#app",
+        data: {
+            popup:{
+                isShow: 1,
+                label: popupDefault.label,
+                label2: popupDefault.label2,
+                button:"確認送出",
+                value:"",
+                timer: null,
+                totalTime: 10, 
+                new:""
+            }
+        },
+        mounted() {
+            // this.timer = setInterval(this.countdown, 1000);
+        },
+        methods: {
+        //   onClick(payload) {
+        //   const { popup, $refs } = this;
+        //   const { callBack, value, value2 } = popup;
+        //   if (typeof callBack === "function") {
+        //     this.timer = setInterval(this.countdown, 1000);
+        //     callBack({ value, value2, payload });
+        //   } else {
+        //     this.showPopup = false;
+        //   }
+        // },
+        // if test
+        timerStart(){
+          this.timer = setInterval(this.countdown, 1000);
+          this.ifTest();
+        },
+
+
+        onClick(data){
+          // console.log(this.popup.value)
+          // alert(data)
+          this.popup.new = data;
+       
+        },
+
+        renew(){
+          this.popup.totalTime= 10;
+          this.popup.value="";
+          this.popup.new =""
+        },
+      
+        ifTest(){
+        // console.log(this.popup.totalTime)
+        if(this.popup.totalTime==10){
+          console.log('hi')
+        }else{
+          console.log('nono')
+        }
+        },
+
+        // Timmer
+        startTimer() {
+        this.timer = setInterval(this.countdown, 1000);
+        },
+        padTime: function (time) {
+          return (time < 10 ? "0" : "") + time;
+        },
+        countdown() {
+          // this.time--;
+          // if (this.time == 0) {
+          //   clearInterval(this.timer);
+          // }
+          if (this.popup.totalTime >= 1) {
+            this.popup.totalTime--;
+          } else {
+            this.popup.totalTime = 0;
+            this.popup.resetTimer;
+          }
+        },
+        },
+        // Timmer
+        computed:{
+          minutes: function () {
+            const minutes = Math.floor(this.popup.totalTime / 60);
+            return this.padTime(minutes);
+          },
+          seconds: function () {
+            const seconds = this.popup.totalTime - this.minutes * 60;
+            return this.padTime(seconds);
+          },
+        },
+        beforeDestroy() {
+          clearInterval(this.popup.timer);
+        },
+
+     });
+
+
+    </script>
+  </body>
+</html>

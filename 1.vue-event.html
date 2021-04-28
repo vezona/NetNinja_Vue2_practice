@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>simple Vue 2</title>
+    <link rel="stylesheet" href="./1.vue-event.css" />
+  </head>
+  <body>
+    <div id="vue-app">
+      <h1>{{ greeting('afternoon') }}</h1>
+      <p>姓名:{{name}}</p>
+      <p>年紀:{{age}}</p>
+      <hr />
+
+      <!-- vue Data-binding -->
+      <a v-bind:href="search">搜尋一下</a>
+      <input type="text" v-bind:value="name" />
+      <input type="text" v-bind:placeholder="placeholder" />
+      <!-- VueHTML把整個元素都搬進來 -->
+      <p v-html="websiteHTML"></p>
+
+      <!-- Vue Event  -->
+      <h2>Event</h2>
+      <p>My age is {{age}}</p>
+      <button v-on:click="substrackAge(1)">subtract a Year</button>
+      <button v-on:click="addingAge(1)">Add a Year</button>
+      <hr />
+      <button v-on:dblclick="substrackAge(10)">subtract 10 Year</button>
+      <button v-on:dblclick="addingAge(10)">Add 10 Year</button>
+      <hr />
+      <p>MouseOver Event</p>
+      <div id="canvas" v-on:mousemove="updateXY">{{x}}, {{y}}</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="./1.vue-event.js"></script>
+  </body>
+</html>

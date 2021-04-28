@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue-game</title>
+
+    <style>
+      #bag {
+        width: 200px;
+        height: 500px;
+        margin: 0 auto;
+        background: url(./img/bag.png) center no-repeat;
+        background-size: 80%;
+      }
+      #bag.burst {
+        background: url(./img/bag-burst.png) center no-repeat;
+        background-size: 80%;
+        transition: 1s;
+      }
+
+      #bag-health {
+        width: 200px;
+        border: 2px solid black;
+        margin: 0 auto 20px auto;
+      }
+
+      #bag-health div {
+        height: 20px;
+        background-color: crimson;
+        transition: 1s;
+      }
+
+      #controls {
+        width: 120px;
+        margin: 0 auto;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- bag image -->
+      <div id="bag" :class="{burst:ended}"></div>
+
+      <!-- bag health -->
+      <div id="bag-health">
+        <!-- 這邊是滿血進度條，現在要把它跟health綁定 -->
+        <div :style="{width:health + '%'}"></div>
+      </div>
+
+      <!-- game controls  -->
+      <div id="controls">
+        <button @click="punch()" v-show="!ended">Punch</button>
+        <button @click="restart()">Restart</button>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          health: 100,
+          //   一開始是滿血，所以ended不是true
+          ended: false,
+        },
+        computed: {},
+        methods: {
+          punch: function () {
+            this.health -= 10;
+            console.log(this.health);
+            // 設定結束的條件
+            if (this.health <= 0) {
+              this.ended = true;
+            }
+          },
+          restart: function () {
+            this.health = 100;
+            this.ended = false;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

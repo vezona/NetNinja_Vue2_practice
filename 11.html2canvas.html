@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>html 2 Canvas</title>
+  </head>
+  <body>
+    <!-- <div id="chart3">
+      擷取區塊
+      <h1>Hihi</h1>
+      <h2>This is test</h2>
+    </div>
+
+    <button id="btnSave" class="btn btn-danger" onclick="screenshot()">
+        Download screenshot
+      </button> -->
+
+    <div id="capture" style="padding: 10px; background: #f5da55">
+      <h4 style="color: #000">Hello world!</h4>
+      <h1>Hihihi</h1>
+      <input type="text" placeholder="這邊請填入" />
+    </div>
+    <hr />
+
+    <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <!-- <script type="text/javascript">
+      function screenshot() {
+        html2canvas(document.getElementById("chart3")).then(function (canvas) {
+          document.body.appendChild(canvas);
+          var a = document.createElement("a");
+          a.href = canvas
+            .toDataURL("image/jpeg")
+            .replace("image/jpeg", "image/octet-stream");
+          a.download = "image.jpg";
+          a.click();
+        });
+      }
+    </script> -->
+
+    <script>
+      html2canvas(document.querySelector("#capture")).then((canvas) => {
+        document.body.appendChild(canvas);
+      });
+    </script>
+  </body>
+</html>

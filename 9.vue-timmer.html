@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue timer</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1 class="text-center">{{ minutes }}:{{seconds}}</h1>
+      <input type="text" v-if="popup.totalTime" />
+      <button @click="onClick3">Start</button>
+
+      <button v-if="popup.totalTime">輸入驗證碼</button>
+      <button v-if="!popup.totalTime">重新發送</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script>
+      let app = new Vue({
+        el: "#app",
+        data: {
+          popup: {
+            timer: null,
+            totalTime: 5 * 60,
+          },
+        },
+        mounted() {
+          //   this.timer = setInterval(this.countdown, 1000);
+        },
+        // =換算分鐘秒數======================
+        computed: {
+          minutes: function () {
+            const minutes = Math.floor(this.popup.totalTime / 60);
+            return this.padTime(minutes);
+          },
+          seconds: function () {
+            const seconds = this.popup.totalTime - this.minutes * 60;
+            return this.padTime(seconds);
+          },
+        },
+        methods: {
+          //   startTimer() {
+          //     this.timer = setInterval(this.countdown, 1000);
+          //   },
+          onClick3(payload) {
+            // this.showPopup = false;
+            const { popup, $refs } = this;
+            const { callBack, value, value2 } = popup;
+            this.timer = setInterval(this.countdown, 1000);
+            // if (typeof callBack === "function") {
+            //   callBack({ value, value2, payload });
+            // } else {
+            //   this.showPopup = false;
+            // }
+          },
+          padTime: function (time) {
+            return (time < 10 ? "0" : "") + time;
+          },
+          countdown() {
+            // this.time--;
+            // if (this.time == 0) {
+            //   clearInterval(this.timer);
+            // }
+            if (this.popup.totalTime >= 1) {
+              this.popup.totalTime--;
+            } else {
+              this.popup.totalTime = 0;
+              this.popup.resetTimer;
+            }
+          },
+        },
+        beforeDestroy() {
+          clearInterval(this.popup.timer);
+        },
+      });
+    </script>
+  </body>
+</html>
